@@ -12,4 +12,4 @@ endpoints:
 dependencies:
     connectionReferences:
     - name: openai-connection
-      resourceRef: thirdparty:openai/v1
+      resourceRef: service:/choose-your-own-adventure/openaiapi/v1/proxy/PROJECT
