@@ -54,27 +54,54 @@ def get_session_id(session_id: Optional[str] = Cookie(None)):
 #     )
 #
 #     return job
-@router.post("/create", response_model=StoryJobResponse)
+
+# diagnostic version
+@router.post("/create")
 def create_story(
     request: CreateStoryRequest,
     response: Response,
     session_id: str = Depends(get_session_id),
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
 ):
     response.set_cookie(key="session_id", value=session_id, httponly=True)
 
+    job_id = str(uuid.uuid4())
+
     job = StoryJob(
-        job_id=str(uuid.uuid4()),
+        job_id=job_id,
         session_id=session_id,
         theme=request.theme,
-        status="pending"
+        status="pending",
     )
-
     db.add(job)
     db.commit()
 
-    # DO NOT generate here
-    return job
+    # 🔴 ABSOLUTELY NOTHING ELSE
+    return {"job_id": job_id}
+
+
+
+# @router.post("/create", response_model=StoryJobResponse)
+# def create_story(
+#     request: CreateStoryRequest,
+#     response: Response,
+#     session_id: str = Depends(get_session_id),
+#     db: Session = Depends(get_db)
+# ):
+#     response.set_cookie(key="session_id", value=session_id, httponly=True)
+#
+#     job = StoryJob(
+#         job_id=str(uuid.uuid4()),
+#         session_id=session_id,
+#         theme=request.theme,
+#         status="pending"
+#     )
+#
+#     db.add(job)
+#     db.commit()
+#
+#     # DO NOT generate here
+#     return job
 
 
 @router.post("/process/{job_id}")
