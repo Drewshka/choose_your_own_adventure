@@ -1,7 +1,7 @@
 import {useState} from "react"
 
 function ThemeInput({onSubmit}) {
-    const [theme, setTheme] = useState("");
+    const [theme, setTheme]= useState("");
     const [error, setError] = useState("")
 
     const handleSubmit = (e) => {
@@ -25,7 +25,7 @@ function ThemeInput({onSubmit}) {
                     type="text"
                     value={theme}
                     onChange={(e) => setTheme(e.target.value)}
-                    placeholder="Enter a theme (e.g. pirates, space, medieval...)"
+                    placeholder="Enter a theme (e.g. prirates, space, medieval...)"
                     className={error ? 'error' : ''}
                 />
                 {error && <p className="error-text">{error}</p>}
